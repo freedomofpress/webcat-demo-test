@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Bagnard";
+  src: url("/fonts/bagnard.regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.bagnard {
+  font-family: "Bagnard", serif;
+}
+

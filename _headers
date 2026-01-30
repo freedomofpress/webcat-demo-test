@@ -1,0 +1,2 @@
+/*
+    content-security-policy: object-src 'none'; default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; frame-src 'none'; worker-src 'self';

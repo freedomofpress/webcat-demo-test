@@ -1,0 +1,65 @@
+name: Update WEBCAT Manifest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Create dist/ explicitly
+      - name: Prepare dist directory
+        run: |
+          set -euo pipefail
+
+          rm -rf dist
+          mkdir -p dist
+
+          # Copy exactly what Cloudflare serves
+          cp -r \
+            css \
+            fonts \
+            js \
+            wasm \
+            workers \
+            index.html \
+            error.html \
+            dist/
+
+      # Optional sanity check
+      - name: Show dist contents
+        run: |
+          find dist -type f | sort
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webcat-dist
+          path: dist
+
+      - name: Upload WEBCAT config
+        uses: actions/upload-artifact@v4
+        with:
+          name: webcat-config
+          path: webcat.config.json
+
+  webcat-manifest:
+    needs: build
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+
+    uses: ./.github/workflows/webcat-generate-and-commit-manifest.yml
+    with:
+      manifest_path: .well-known/webcat/manifest.json
+
+  webcat-bundle:
+    needs: webcat-manifest
+    permissions:
+      contents: write
+
+    uses: freedomofpress/webcat-cli/.github/workflows/webcat-assemble-bundle.yaml@main

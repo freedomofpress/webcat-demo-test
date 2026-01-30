@@ -1,0 +1,9 @@
+{
+    "app": "https://github.com/freedomofpress/webcat-demo-test",
+    "version": "0.1",
+    "wasm": [],
+    "default_csp": "object-src 'none'; default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; frame-src 'none'; worker-src 'self';",
+    "extra_csp": {},
+    "default_index": "index.html",
+    "default_fallback": "/error.html"
+}
